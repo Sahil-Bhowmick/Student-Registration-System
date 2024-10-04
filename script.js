@@ -4,6 +4,9 @@ document.addEventListener("DOMContentLoaded", () => {
   const updateBtn = document.getElementById("updateBtn");
   const resetBtn = document.getElementById("resetBtn");
   const tableBody = document.getElementById("tableBody");
+  const successMessage = document.createElement("div");
+  successMessage.id = "successMessage";
+  document.body.insertBefore(successMessage, document.body.firstChild);
   const students = JSON.parse(localStorage.getItem("students")) || [];
   let editIndex = -1;
 
@@ -15,6 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
     clearErrors();
 
     if (validateForm(student)) {
+      if (isDuplicateStudent(student)) {
+        alert("Student is already registered with this ID or email.");
+        return;
+      }
+
       students.push(student);
       updateLocalStorage();
       displayStudents();
@@ -72,27 +80,44 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  function isDuplicateStudent(student) {
+    return students.some(
+      (existingStudent) =>
+        existingStudent.id === student.id ||
+        existingStudent.email === student.email
+    );
+  }
+
   function validateForm(student) {
     let isValid = true;
 
-    if (!student.name) {
-      showError("nameError", "Please enter the student's name.");
+    if (!student.name || !/^[A-Za-z\s]+$/.test(student.name)) {
+      showError(
+        "nameError",
+        "Please enter a valid student name (letters only)."
+      );
       isValid = false;
     }
-    if (!student.id) {
-      showError("idError", "Please enter the student ID.");
+    if (!student.id || !/^\d+$/.test(student.id)) {
+      showError("idError", "Please enter a valid student ID (numbers only).");
       isValid = false;
     }
-    if (!student.roll) {
-      showError("rollError", "Please enter the roll number.");
+    if (!student.roll || !/^\d+$/.test(student.roll)) {
+      showError(
+        "rollError",
+        "Please enter a valid roll number (numbers only)."
+      );
       isValid = false;
     }
     if (!student.email || !validateEmail(student.email)) {
       showError("emailError", "Please enter a valid email address.");
       isValid = false;
     }
-    if (!student.contact) {
-      showError("contactError", "Please enter the contact number.");
+    if (!student.contact || !/^\d{10}$/.test(student.contact)) {
+      showError(
+        "contactError",
+        "Please enter a valid 10-digit contact number."
+      );
       isValid = false;
     }
 
@@ -160,13 +185,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function showSuccessMessage(message) {
-    const successElement = document.getElementById("successMessage");
-    successElement.textContent = message;
-    successElement.style.display = "block";
+    successMessage.textContent = message;
+    successMessage.style.display = "block";
     setTimeout(() => {
-      successElement.style.display = "none";
-    }, 3000); // Hide after 3 seconds
+      successMessage.style.display = "none";
+    }, 3000);
   }
 });
+
 // Set the dynamic copyright year
 document.getElementById("currentYear").textContent = new Date().getFullYear();

@@ -15,13 +15,6 @@ body {
   min-height: 100vh;
 }
 
-/* Main Content Wrapper */
-.main-content {
-  flex: 1; /* Ensures main content expands to fill available space */
-  display: flex;
-  flex-direction: column;
-}
-
 /* Header Section */
 header {
   background: linear-gradient(90deg, #116172, #0a4e52);
@@ -61,7 +54,8 @@ header h1 {
   width: 70%;
   padding: 20px;
   background: #fff;
-  overflow-x: auto;
+  overflow-y: auto;
+  max-height: calc(100vh - 130px);
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
@@ -76,33 +70,22 @@ header h1 {
 .form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-}
-
-/* Form Section */
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 15px; /* Space between inputs */
+  gap: 10px;
 }
 
 /* Form Input and Label Styling */
 .form > div {
   display: flex;
-  align-items: center;
-  gap: 10px; /* Space between label and input */
+  flex-direction: column;
+  gap: 3px;
   width: 100%;
-}
-
-.form label {
-  width: 150px; /* Label width */
 }
 
 /* Uniform Input Styling */
 .form input {
-  width: 100%; /* Make input fields full width */
-  height: 40px; /* Set uniform height */
-  padding: 10px; /* Uniform padding */
+  width: 100%;
+  height: 30px;
+  padding: 15px;
   border: 1px solid #ddd;
   border-radius: 5px;
   transition: border-color 0.3s;
@@ -116,22 +99,23 @@ header h1 {
 
 /* Error Message Styling */
 .error-message {
-  color: red; /* Error message color */
-  font-size: 0.8em; /* Font size for error messages */
-  margin-top: 5px; /* Space between input and error message */
+  color: red;
+  font-size: 0.8em;
+  margin-top: 3px;
 }
 
 /* Form Buttons */
 .form-buttons {
   display: flex;
   justify-content: space-between;
+  padding-top: 10px;
 }
 
 /* Button Styling */
 button {
   background: linear-gradient(90deg, #116172, #0a4e52);
   color: white;
-  padding: 10px 15px;
+  padding: 10px 20px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -144,11 +128,11 @@ button:hover {
 
 /* Reset Button Styling */
 #resetBtn {
-  background: linear-gradient(90deg, #e62323, #ee7171); /* Red gradient */
+  background: linear-gradient(90deg, #e62323, #dc4a4a);
 }
 
 #resetBtn:hover {
-  background: linear-gradient(90deg, #cc0000, #ff4d4d);
+  background: linear-gradient(90deg, #cc0000, #bd2b2b);
 }
 
 /* Table Styling */
@@ -160,7 +144,7 @@ button:hover {
 
 .table th,
 .table td {
-  padding: 12px;
+  padding: 10px;
   text-align: left;
   border-bottom: 1px solid #ddd;
 }
@@ -174,27 +158,13 @@ button:hover {
   background-color: #f1f1f1;
 }
 
-/* Action Buttons */
-.actions button {
-  background: transparent;
-  border: none;
-  color: #116172;
-  cursor: pointer;
-}
-
-.actions button:hover {
-  color: #0a4e52;
-}
-
 /* Footer Section */
 footer {
-  /* background: linear-gradient(90deg, #2d2d2d, #404040); */
   background: linear-gradient(90deg, #062228, #0a4e52);
   color: white;
   text-align: center;
   padding: 15px 0;
   width: 100%;
-  position: relative;
 }
 
 .footer-content {
@@ -218,27 +188,46 @@ footer {
 }
 
 .social-links a:hover {
-  color: #1e90ff; /* Light blue hover effect */
-}
-
-/* Copyright Text */
-footer p {
-  font-size: 1em;
-  opacity: 0.8;
+  color: #1e90ff;
 }
 
 /* Responsive Adjustments */
 @media (max-width: 1024px) {
+  /* Adjusting Layout for Tablets */
+  .container {
+    flex-direction: column;
+    height: auto;
+  }
+
   .form-container {
-    width: 40%;
+    width: 100%;
+    border: none;
+    padding: 20px 10px;
+    box-shadow: none;
   }
 
   .table-container {
-    width: 60%;
+    width: 100%;
+    margin-top: 15px;
+    padding: 20px 10px;
+    box-shadow: none;
+  }
+
+  .section-title {
+    font-size: 1.4em;
+  }
+
+  header h1 {
+    font-size: 1.8em;
+  }
+
+  .description {
+    font-size: 1em;
   }
 }
 
 @media (max-width: 768px) {
+  /* Adjusting Layout for Mobile Devices */
   .container {
     flex-direction: column;
     height: auto;
@@ -248,79 +237,173 @@ footer p {
   .table-container {
     width: 100%;
     padding: 15px;
-    border: none;
+    margin: 15px 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
   }
 
-  header h1 {
-    font-size: 1.5em;
+  .section-title {
+    font-size: 1.6em;
+    text-align: center;
+    margin-bottom: 15px;
   }
 
-  .description {
-    font-size: 0.9em;
+  /* Form Section Styling */
+  .form {
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
   }
 
   .form > div {
-    flex-direction: column;
-    align-items: flex-start;
+    margin-bottom: 15px;
   }
 
   .form label {
-    width: auto;
-    margin-bottom: 5px;
+    font-size: 1.1em;
+    color: #3a506b;
   }
 
   .form input {
-    width: 100%;
-    height: 40px;
+    padding: 12px;
+    font-size: 1em;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+
+  /* Error Message */
+  .error-message {
+    margin-top: 5px;
+    font-size: 0.85em;
   }
 
   .form-buttons {
     flex-direction: column;
     gap: 10px;
+    margin-top: 20px;
   }
 
   button {
     width: 100%;
-    padding: 12px 0;
+    padding: 12px;
+    font-size: 1em;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+  }
+
+  /* Table Section Styling */
+  .table-container {
+    padding: 15px;
   }
 
   .table {
     display: block;
+    width: 100%;
     overflow-x: auto;
+    margin-top: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
   }
 
   .table th,
   .table td {
-    padding: 8px;
+    padding: 10px 12px;
     font-size: 0.9em;
+    white-space: nowrap;
+  }
+
+  .table th {
+    background: #3a506b;
+    color: white;
+    text-align: center;
+  }
+
+  .table tr {
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s;
+  }
+
+  .table tr:hover {
+    background-color: #e2e2e2;
+  }
+
+  /* Table Actions Buttons */
+  .actions button {
+    padding: 10px;
+    font-size: 0.85em;
+    border-radius: 4px;
+    margin: 5px;
+  }
+
+  .actions button:hover {
+    background: #116172;
+    color: white;
+  }
+
+  /* Footer Adjustments */
+  footer {
+    padding: 20px 10px;
+    border-radius: 0px 0px 8px 8px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+
+  .social-links a {
+    margin: 0 8px;
+    font-size: 2em;
   }
 }
 
 @media (max-width: 480px) {
-  header {
-    padding: 15px 0;
+  /* Very Small Mobile Adjustments */
+  .section-title {
+    font-size: 1.4em;
+    margin-bottom: 10px;
   }
 
-  .form label {
-    font-size: 0.8em;
+  /* Form Container Adjustments */
+  .form-container {
+    padding: 10px 8px;
+  }
+
+  .form {
+    padding: 15px;
   }
 
   .form input {
-    height: 35px;
-    padding: 8px;
+    padding: 10px;
+    font-size: 0.9em;
   }
 
   button {
+    font-size: 0.9em;
     padding: 10px 0;
+  }
+
+  .table-container {
+    padding: 10px;
   }
 
   .table th,
   .table td {
-    padding: 6px;
+    padding: 8px;
     font-size: 0.8em;
   }
 
   .actions button {
-    font-size: 0.8em;
+    width: 80px;
+    font-size: 0.7em;
+    padding: 8px 3px;
+    border-radius: 4px;
   }
 }
