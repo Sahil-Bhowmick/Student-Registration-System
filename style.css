@@ -135,6 +135,16 @@ button:hover {
   background: linear-gradient(90deg, #cc0000, #bd2b2b);
 }
 
+/* .success-message {
+  background-color: #d4edda;
+  color: #155724;
+  padding: 15px;
+  border: 1px solid #c3e6cb;
+  border-radius: 5px;
+  margin-top: 20px;
+  display: none;
+} */
+
 /* Table Styling */
 .table {
   width: 100%;

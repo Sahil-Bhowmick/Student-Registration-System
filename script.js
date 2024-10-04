@@ -7,46 +7,55 @@ document.addEventListener("DOMContentLoaded", () => {
   const successMessage = document.createElement("div");
   successMessage.id = "successMessage";
   document.body.insertBefore(successMessage, document.body.firstChild);
-  const students = JSON.parse(localStorage.getItem("students")) || [];
-  let editIndex = -1;
 
-  // Display existing students on load
+  // Load existing students from local storage or initialize an empty array
+  const students = JSON.parse(localStorage.getItem("students")) || [];
+  let editIndex = -1; // Index to track which student is being edited
+
+  // Display existing students on page load
   displayStudents();
 
+  // Event listener for the "Add" button
   addBtn.addEventListener("click", () => {
-    const student = getFormData();
-    clearErrors();
+    const student = getFormData(); // Get form data
+    clearErrors(); // Clear any existing error messages
 
     if (validateForm(student)) {
+      // Validate form data
       if (isDuplicateStudent(student)) {
+        // Check for duplicate student
         alert("Student is already registered with this ID or email.");
         return;
       }
 
-      students.push(student);
-      updateLocalStorage();
-      displayStudents();
-      showSuccessMessage("Student added successfully!");
-      resetForm();
+      students.push(student); // Add new student to the array
+      updateLocalStorage(); // Update local storage
+      displayStudents(); // Refresh the student list display
+      showSuccessMessage("Student added successfully!"); // Show success message
+      resetForm(); // Reset the form fields
     }
   });
 
+  // Event listener for the "Update" button
   updateBtn.addEventListener("click", () => {
-    const student = getFormData();
-    clearErrors();
+    const student = getFormData(); // Get updated form data
+    clearErrors(); // Clear any existing error messages
 
     if (validateForm(student)) {
-      students[editIndex] = student;
-      updateLocalStorage();
-      displayStudents();
-      showSuccessMessage("Student updated successfully!");
-      resetForm();
-      switchToAddMode();
+      // Validate updated data
+      students[editIndex] = student; // Update the existing student
+      updateLocalStorage(); // Update local storage
+      displayStudents(); // Refresh the student list display
+      showSuccessMessage("Student updated successfully!"); // Show success message
+      resetForm(); // Reset the form fields
+      switchToAddMode(); // Switch back to add mode
     }
   });
 
-  resetBtn.addEventListener("click", resetForm);
+  // Event listener for the "Reset" button
+  resetBtn.addEventListener("click", resetForm); // Reset the form fields
 
+  // Function to collect data from the form
   function getFormData() {
     return {
       name: document.getElementById("studentName").value.trim(),
@@ -57,8 +66,9 @@ document.addEventListener("DOMContentLoaded", () => {
     };
   }
 
+  // Function to display the list of students in the table
   function displayStudents() {
-    tableBody.innerHTML = "";
+    tableBody.innerHTML = ""; // Clear current table content
     students.forEach((student, index) => {
       const row = `
                 <tr>
@@ -76,10 +86,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         </button>
                     </td>
                 </tr>`;
-      tableBody.innerHTML += row;
+      tableBody.innerHTML += row; // Append new row to the table body
     });
   }
 
+  // Function to check for duplicate students based on ID or email
   function isDuplicateStudent(student) {
     return students.some(
       (existingStudent) =>
@@ -88,9 +99,11 @@ document.addEventListener("DOMContentLoaded", () => {
     );
   }
 
+  // Function to validate the form data
   function validateForm(student) {
     let isValid = true;
 
+    // Validate student name
     if (!student.name || !/^[A-Za-z\s]+$/.test(student.name)) {
       showError(
         "nameError",
@@ -98,10 +111,12 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       isValid = false;
     }
+    // Validate student ID
     if (!student.id || !/^\d+$/.test(student.id)) {
       showError("idError", "Please enter a valid student ID (numbers only).");
       isValid = false;
     }
+    // Validate roll number
     if (!student.roll || !/^\d+$/.test(student.roll)) {
       showError(
         "rollError",
@@ -109,10 +124,12 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       isValid = false;
     }
+    // Validate email address
     if (!student.email || !validateEmail(student.email)) {
       showError("emailError", "Please enter a valid email address.");
       isValid = false;
     }
+    // Validate contact number
     if (!student.contact || !/^\d{10}$/.test(student.contact)) {
       showError(
         "contactError",
@@ -121,69 +138,80 @@ document.addEventListener("DOMContentLoaded", () => {
       isValid = false;
     }
 
-    return isValid;
+    return isValid; // Return the validity status
   }
 
+  // Function to validate email format
   function validateEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
+    return regex.test(email); // Check if email matches regex
   }
 
+  // Function to display error messages
   function showError(elementId, message) {
     const errorElement = document.getElementById(elementId);
-    errorElement.textContent = message;
+    errorElement.textContent = message; // Set error message
   }
 
+  // Function to clear existing error messages
   function clearErrors() {
     const errorElements = document.querySelectorAll(".error-message");
-    errorElements.forEach((el) => (el.textContent = ""));
+    errorElements.forEach((el) => (el.textContent = "")); // Clear each error message
   }
 
+  // Function to edit a student entry
   window.editStudent = (index) => {
-    const student = students[index];
+    const student = students[index]; // Get student data by index
+    // Populate form fields with student data
     document.getElementById("studentName").value = student.name;
     document.getElementById("studentID").value = student.id;
     document.getElementById("rollNumber").value = student.roll;
     document.getElementById("email").value = student.email;
     document.getElementById("contactNo").value = student.contact;
-    editIndex = index;
-    switchToUpdateMode();
+    editIndex = index; // Set edit index
+    switchToUpdateMode(); // Switch to update mode
   };
 
+  // Function to delete a student entry
   window.deleteStudent = (index) => {
     if (confirm("Are you sure you want to delete this student?")) {
-      students.splice(index, 1);
-      updateLocalStorage();
-      displayStudents();
-      showSuccessMessage("Student deleted successfully!");
+      students.splice(index, 1); // Remove student from the array
+      updateLocalStorage(); // Update local storage
+      displayStudents(); // Refresh the student list display
+      showSuccessMessage("Student deleted successfully!"); // Show success message
     }
   };
 
+  // Function to switch the form to update mode
   function switchToUpdateMode() {
-    addBtn.style.display = "none";
-    updateBtn.style.display = "inline";
+    addBtn.style.display = "none"; // Hide add button
+    updateBtn.style.display = "inline"; // Show update button
   }
 
+  // Function to switch the form back to add mode
   function switchToAddMode() {
-    addBtn.style.display = "inline";
-    updateBtn.style.display = "none";
+    addBtn.style.display = "inline"; // Show add button
+    updateBtn.style.display = "none"; // Hide update button
   }
 
+  // Function to reset the form fields
   function resetForm() {
-    studentForm.reset();
-    clearErrors();
-    editIndex = -1;
-    switchToAddMode();
+    studentForm.reset(); // Reset form fields
+    clearErrors(); // Clear any existing error messages
+    editIndex = -1; // Reset edit index
+    switchToAddMode(); // Switch back to add mode
   }
 
+  // Function to update local storage with the current students array
   function updateLocalStorage() {
     try {
-      localStorage.setItem("students", JSON.stringify(students));
+      localStorage.setItem("students", JSON.stringify(students)); // Save students array
     } catch (e) {
-      console.error("Error saving to localStorage:", e);
+      console.error("Error saving to localStorage:", e); // Log any errors
     }
   }
 
+  // Function to show success messages for a limited time
   function showSuccessMessage(message) {
     successMessage.textContent = message;
     successMessage.style.display = "block";
@@ -193,5 +221,5 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
-// Set the dynamic copyright year
+// Set the dynamic copyright year in the footer
 document.getElementById("currentYear").textContent = new Date().getFullYear();
