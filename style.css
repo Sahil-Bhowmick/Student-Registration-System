@@ -135,7 +135,7 @@ button:hover {
   background: linear-gradient(90deg, #cc0000, #bd2b2b);
 }
 
-/* .success-message {
+.success-message {
   background-color: #d4edda;
   color: #155724;
   padding: 15px;
@@ -143,7 +143,7 @@ button:hover {
   border-radius: 5px;
   margin-top: 20px;
   display: none;
-} */
+}
 
 /* Table Styling */
 .table {
@@ -276,7 +276,7 @@ footer {
   }
 
   .form input {
-    padding: 12px;
+    padding: 20px;
     font-size: 1em;
     border-radius: 5px;
     border: 1px solid #ddd;
@@ -291,7 +291,7 @@ footer {
   .form-buttons {
     flex-direction: column;
     gap: 10px;
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   button {
